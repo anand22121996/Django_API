@@ -5,11 +5,29 @@ from django.http import HttpResponse
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status, generics, mixins
+from rest_framework import status, generics, mixins, viewsets
 from rest_framework.views import APIView
 from rest_framework.authentication import SessionAuthentication,TokenAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 # Create your views here.
+
+# ModelViewSet
+class ArticleModelViewSet(viewsets.ModelViewSet):
+    serializer_class = ArticleSerializer
+    queryset = Article.objects.all()
+
+# Concrete API view
+class LCAPIView(generics.ListCreateAPIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication,TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = ArticleSerializer
+    queryset = Article.objects.all()
+
+class RUDAPIView(generics.RetrieveUpdateDestroyAPIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication,TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = ArticleSerializer
+    queryset = Article.objects.all()
 
 # Generic APIViews
 # List & Create - PK not required
