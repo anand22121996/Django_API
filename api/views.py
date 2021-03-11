@@ -13,6 +13,8 @@ from rest_framework.permissions import IsAuthenticated
 
 # ModelViewSet
 class ArticleModelViewSet(viewsets.ModelViewSet):
+    authentication_classes = [SessionAuthentication, BasicAuthentication,TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     serializer_class = ArticleSerializer
     queryset = Article.objects.all()
 
